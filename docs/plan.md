@@ -15,8 +15,9 @@ Decisions (2026-10-18):
 | 1 | Scaffold the repo, move the prototype into `game/` unchanged | done |
 | 2 | Design doc updated so tested rules override the export | done |
 | 3 | Split the prototype into modules (`rules/`, `ui/`, `theme/`, `settings/`) and add rule tests | done (PR) |
-| 4 | Restyle to 1A dark, add light mode and the Settings screen | next |
-| 5 | Add Capacitor, bundle ID, icons and splash, safe areas, haptics, offline; run on real phones | |
+| 4 | Restyle to 1A dark, add light mode and the Settings screen | done (PR) |
+| 4b | Home screen, Nibble tutorial, Puzzle levels, Stats (from the export) | not started, after playtesting |
+| 5 | Add Capacitor, bundle ID, icons and splash, safe areas, haptics, offline; run on real phones | next |
 | 6 | Marketing site and privacy policy | |
 | 7 | Store assets and listings | |
 | 8 | Beta (TestFlight, Play closed testing), then CI release jobs, then launch | |

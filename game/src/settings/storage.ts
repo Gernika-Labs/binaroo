@@ -1,5 +1,7 @@
+import { THEME_CHOICES, type ThemeChoice } from "../theme/theme";
+
 /** Saved on the device. Every access is guarded: storage can be blocked or full. */
-const KEYS = { best: "binaroo:best", sound: "binaroo:sound" } as const;
+const KEYS = { best: "binaroo:best", sound: "binaroo:sound", theme: "binaroo:theme" } as const;
 
 function read(key: string): string | null {
   try {
@@ -22,3 +24,9 @@ export const saveBest = (score: number): void => write(KEYS.best, String(score))
 
 export const loadSound = (): boolean => read(KEYS.sound) !== "0";
 export const saveSound = (on: boolean): void => write(KEYS.sound, on ? "1" : "0");
+
+export function loadTheme(): ThemeChoice {
+  const saved = read(KEYS.theme);
+  return THEME_CHOICES.find((c) => c === saved) ?? "system";
+}
+export const saveTheme = (choice: ThemeChoice): void => write(KEYS.theme, choice);
