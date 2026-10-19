@@ -28,7 +28,7 @@ npm test
 npm run build      # outputs game/dist
 ```
 
-The game is currently a single-file prototype (`game/index.html`). It is being split into modules (see `docs/plan.md`).
+See `docs/architecture.md` for how `game/src` is organised.
 
 ## Status
 

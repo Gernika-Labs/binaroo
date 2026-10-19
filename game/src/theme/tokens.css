@@ -1,0 +1,10 @@
+/* Design tokens. Dark is the default; the light set arrives with the Settings screen. */
+:root{
+  --bg:#07122b; --board:#0c1e44; --cell:#142d5c; --cell-edge:#1c3a73;
+  --fg:#e8f0ff; --dim:#8da2cf;
+  --bit:#4cc9f0; --bit-deep:#1b8fd1;
+  --exact:#4ade80; --over:#ffb703; --bad:#ff6b6b;
+  --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
