@@ -1,0 +1,67 @@
+name: Bug report
+description: Something in Binaroo doesn't work as expected
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for testing! The more exact you are, the faster we can fix it. The test guide is in `docs/testing.md`.
+        For a security problem, do not file an issue: see SECURITY.md.
+  - type: input
+    id: device
+    attributes:
+      label: Device and OS
+      description: For example "iPhone 15, iOS 18.2" or "Pixel 8, Android 15"
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Where did you run it?
+      options:
+        - Real phone
+        - iOS simulator
+        - Android emulator
+        - Web browser (/play)
+    validations:
+      required: true
+  - type: input
+    id: build
+    attributes:
+      label: Build
+      description: The git commit or pull request you installed, or the app version
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps
+      description: Exactly what you did, starting from a fresh launch.
+      placeholder: |
+        1. Open the app
+        2. Tap the single square
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened instead
+    validations:
+      required: true
+  - type: input
+    id: settings
+    attributes:
+      label: Settings
+      description: Theme, sound and haptics, for example "Dark, sound on, haptics on"
+  - type: textarea
+    id: extra
+    attributes:
+      label: Screenshot, screen recording or logs
+      description: Drag files here. A screen recording helps a lot for dragging and animation problems.

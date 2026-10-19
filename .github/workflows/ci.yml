@@ -5,6 +5,10 @@ on:
     branches: [main]
   pull_request:
 
+# the repo default is read-only too; this keeps the workflow safe if that ever changes
+permissions:
+  contents: read
+
 jobs:
   game:
     runs-on: ubuntu-latest
