@@ -1,0 +1,47 @@
+name: Deploy site
+
+# Manual for now. Once site/site.config.json is filled in and Pages is enabled
+# (Settings > Pages > Source: GitHub Actions), add this under `on:` to deploy on every merge:
+#   push:
+#     branches: [main]
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: game/package-lock.json
+      # the site embeds the web game at /play, so build the game first
+      - run: npm ci
+        working-directory: game
+      - run: npm run build
+        working-directory: game
+      - run: npm test
+        working-directory: site
+      # --release refuses to build while email, legal name, country, domain or date are still TODO
+      - run: node build.mjs --release
+        working-directory: site
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: site/dist
+      - id: deployment
+        uses: actions/deploy-pages@v5

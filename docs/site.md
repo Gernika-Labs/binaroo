@@ -40,21 +40,27 @@ node --test site                # tests (or: cd site && npm test)
 
 **Safety guard:** `node site/build.mjs --release` (or setting `SITE_RELEASE=1`) **fails** while any of these is still `TODO`, or if the web game hasn't been built. Use it for production builds so placeholder details can never be published. Without a domain, the site also serves `robots.txt` with `Disallow: /` so an unfinished site stays out of search results.
 
-## Hosting: Cloudflare Pages (recommended)
+## Hosting: GitHub Pages (recommended)
 
-Free, works with a private GitHub repo, and supports a custom domain. Nothing is deployed yet; this needs your Cloudflare account.
+Your GitHub organization is on the **Team** plan, so Pages works for this private repo at no extra cost. (On the Free plan Pages is only available for public repos.) The deploy workflow is `.github/workflows/site.yml`. It is manual until you are ready, and nothing is deployed yet.
 
-1. Cloudflare dashboard > **Workers & Pages** > **Create** > **Pages** > connect the `Gernika-Labs/binaroo` repo.
-2. Build settings:
-   - **Build command:** `npm --prefix game ci && npm --prefix game run build && node site/build.mjs`
-   - **Build output directory:** `site/dist`
-   - **Root directory:** leave empty (the repo root).
-   - **Environment variable:** `NODE_VERSION` = `22`
-3. In the project's **Settings > Environment variables**, add `SITE_RELEASE` = `1` for the **Production** environment only. Production builds then refuse to run until `site.config.json` is complete, while preview builds still work.
-4. Add your custom domain under **Custom domains**, and put the same domain in `site.config.json`.
-5. Use the production URL (for example `https://yourdomain/privacy`) as the privacy policy URL in App Store Connect and Play Console.
+One-time setup, in the repo's **Settings > Pages**:
+1. **Source:** GitHub Actions.
+2. **Custom domain:** enter your domain and follow GitHub's DNS instructions (a `CNAME` record, or `A` records for a root domain), then tick **Enforce HTTPS**. Put the same domain in `site/site.config.json`.
 
-CI (`.github/workflows/ci.yml`) already builds the site and runs its tests on every pull request, so a broken page is caught before it reaches Cloudflare.
+Deploy: **Actions** tab > **Deploy site** > **Run workflow**. It builds the game, runs the site tests, runs the release build (which refuses to continue while any `TODO` is left in `site.config.json`), then publishes `site/dist`. Once you trust it, add a `push` trigger on `main` (the commented lines at the top of the workflow) so every merge redeploys.
+
+Things to know:
+- **The site is public even though the repo is private.** That is what you want for a marketing site and a privacy policy, but do not put anything private in `site/`.
+- **Limits** (from GitHub's docs): published site up to 1 GB, a soft 100 GB of traffic per month, deployments time out after 10 minutes. This site is a few hundred KB.
+- **Commercial use:** GitHub says Pages is not meant to run an online business or take payments. A promotional site for a game is normally fine, but if the site ever sells things, host that part elsewhere.
+- **No custom response headers and no per-PR previews.** `site/dist/_headers` (security headers, caching) is ignored by GitHub Pages; it only matters if you move to Cloudflare. Pull requests are still built and tested by CI (`.github/workflows/ci.yml`), you just can't open a live preview of one.
+- Use the final URL (for example `https://yourdomain/privacy`) as the privacy policy URL in App Store Connect and Play Console.
+- **Untested:** this workflow has not run yet (it needs Pages enabled on the repo). Expect to fix a small thing on its first run.
+
+### Alternative: Cloudflare Pages
+
+Also free for private repos, and it adds a live preview for every pull request, custom headers and a build on their side. It means a second account and vendor. If you prefer it: create a Pages project from the repo with build command `npm --prefix game ci && npm --prefix game run build && node site/build.mjs`, output directory `site/dist`, environment variable `NODE_VERSION=22`, and set `SITE_RELEASE=1` for the **Production** environment only. Then set `hosting` to `Cloudflare` in `site.config.json` so the privacy policy names the right host.
 
 ## The privacy policy
 
@@ -62,7 +68,7 @@ CI (`.github/workflows/ci.yml`) already builds the site and runs its tests on ev
 
 - **If the app changes, the policy must change first.** Adding ads, analytics, crash reporting, accounts, purchases or cloud sync changes what you must disclose, here and in both stores' privacy questionnaires.
 - **It is not legal advice.** Have it reviewed by someone qualified before release, especially for the country in `country`, for GDPR-style rights wording, and if the app is aimed at children (the stores have extra rules for kids' apps).
-- The "this website" section assumes Cloudflare as the host and no cookies or analytics. Change `hosting` in the config if you pick another host, and update the text if you add analytics.
+- The "this website" section names the host from `hosting` in the config (now GitHub Pages) and assumes no cookies or analytics. Change `hosting` in the config if you pick another host, and update the text if you add analytics.
 
 ## Not done
 
