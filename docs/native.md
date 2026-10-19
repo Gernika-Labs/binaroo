@@ -2,6 +2,8 @@
 
 The apps are the web game in `game/` wrapped with Capacitor 8. App ID (both stores): **`com.gernikalabs.binaroo`**. Name: **Binaroo**. Version 1.0 (build/versionCode 1). Minimum: iOS 15, Android 7 (API 24). Phones are locked to portrait.
 
+How to test on emulators and real phones: see `testing.md`.
+
 ## Everyday commands (from `game/`)
 
 | Command | What it does |
