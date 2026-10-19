@@ -13,6 +13,7 @@ How to test on emulators and real phones: see `testing.md`.
 | `npm run ios` | Sync, then open Xcode. Press Run to start the simulator or a device. |
 | `npm run android` | Sync, then open Android Studio. |
 | `npm run ios:sim` | Builds, installs and launches on an iOS simulator (`-- "iPhone 17e"` to pick another). |
+| `npm run ios:shot` | Saves a screenshot of the running iOS simulator to `~/Desktop/binaroo-ios.png`. |
 | `npm run android:emu` | Builds the APK, starts an emulator if needed, installs and launches. |
 | `npm run assets` | Redraws the icon and splash (`scripts/make-resources.mjs`) and regenerates every size for both platforms. |
 

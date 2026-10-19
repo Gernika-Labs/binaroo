@@ -14,7 +14,8 @@
     "ios": "npm run sync && cap open ios",
     "android": "npm run sync && cap open android",
     "ios:sim": "bash scripts/ios-sim.sh",
-    "android:emu": "bash scripts/android-emu.sh"
+    "android:emu": "bash scripts/android-emu.sh",
+    "ios:shot": "xcrun simctl io booted screenshot ~/Desktop/binaroo-ios.png && echo Saved ~/Desktop/binaroo-ios.png"
   },
   "devDependencies": {
     "@capacitor/android": "^8.5.3",

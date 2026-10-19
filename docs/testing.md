@@ -22,11 +22,11 @@ Fast check first (no native tools needed): `npm run dev`, then open the printed 
 
 Needs Xcode (this Mac has it).
 
-**One command** (from `game/`; it syncs, builds, boots the simulator, installs, launches and saves a screenshot):
+**One command** (from `game/`; it syncs, builds, boots the simulator, installs, launches, waits for the app to start and saves a screenshot, which it prints the path of):
 ```sh
 npm run ios:sim
 ```
-Another device: `npm run ios:sim -- "iPhone 17e"`. List the names with `xcrun simctl list devices available`.
+Another device: `npm run ios:sim -- "iPhone 17e"`. List the names with `xcrun simctl list devices available`. Take a fresh screenshot of the running simulator any time with `npm run ios:shot` (saved to `~/Desktop/binaroo-ios.png`).
 
 **In Xcode:** `npm run ios` (syncs and opens Xcode), pick a simulator at the top (for example *iPhone 17*) and press **Run**.
 
@@ -193,6 +193,7 @@ Aim for: at least 2 real phones (one per platform), the smallest and largest sim
 | `Unknown argument: #` | Interactive zsh does not accept `# comments` on a command line. | Copy only the command, without the `#` part. The commands in this guide have no trailing comments. |
 | `No devices are booted` | The boot step failed or was skipped, so there is nothing to install on. | Check with `xcrun simctl list devices booted`. Boot it with `xcrun simctl boot "iPhone 17"`. |
 | `Unable to boot device in current state: Booted` | It is already running. | Ignore it and continue. |
+| The screenshot shows only the splash (four squares) or a blurred home screen with the icon zooming | The app was still launching. The first launch on a freshly booted simulator can take 10 to 20 seconds. | Wait a few seconds, then run `npm run ios:shot` (from `game/`) and open `~/Desktop/binaroo-ios.png`. If the screenshot is still the home screen after a minute, the app crashed: send me the output of `xcrun simctl spawn "iPhone 17" log show --last 2m --predicate 'process == "App"' --style compact`. |
 | `Unable to find application named 'Simulator'` | This Xcode install has no `Simulator.app`. | Run from Xcode's Run button, or use the screenshot. |
 | `adb: command not found` | The Android tools are not on this terminal's PATH. | Run the two `export` lines in section 2, or use `npm run android:emu`. |
 | `no devices/emulators found` | No emulator is running yet. | Start one (`emulator -avd Pixel_9`) and wait for it to boot, or use `npm run android:emu`. |
