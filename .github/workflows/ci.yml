@@ -22,3 +22,22 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
+
+  site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: game/package-lock.json
+      # the site embeds the web game at /play, so build the game first
+      - run: npm ci
+        working-directory: game
+      - run: npm run build
+        working-directory: game
+      - run: npm test
+        working-directory: site
+      - run: npm run build
+        working-directory: site

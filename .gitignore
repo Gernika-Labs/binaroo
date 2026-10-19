@@ -32,3 +32,6 @@ game/ios/App/Pods/
 game/ios/App/build/
 game/ios/DerivedData/
 **/xcuserdata/
+
+# website build output
+site/dist/

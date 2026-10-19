@@ -1,0 +1,53 @@
+<!--
+title: Home
+description: Binaroo is a puzzle game that teaches binary. Fill the board so each row's bits add up to its target number before the timer runs out.
+-->
+<div class="wrap">
+  <section class="hero">
+    <div>
+      <div class="bits" aria-hidden="true"><i>0</i><i class="on">1</i><i>0</i><i>0</i><i>0</i><i>0</i><i class="on">1</i><i>0</i></div>
+      <p class="eyebrow">A puzzle game</p>
+      <h1>{{name}}: learn binary by playing.</h1>
+      <p class="lead">Fill the board so every row adds up to its target number. Each cell is a bit, each row is a byte. Match the number before the row's timer runs out.</p>
+      <div class="actions">
+        <a class="btn primary" href="/play/">Play in your browser</a>
+        <span class="btn" aria-disabled="true">iPhone: coming soon</span>
+        <span class="btn" aria-disabled="true">Android: coming soon</span>
+      </div>
+    </div>
+    <div class="phone"><img src="/assets/screenshot-play-dark.png" width="540" height="2258" alt="Binaroo mid-game: eight rows of bits with target numbers, timer bars and a picker of shapes below."></div>
+  </section>
+
+  <section class="block" aria-labelledby="how">
+    <h2 id="how">How it plays</h2>
+    <div class="grid3">
+      <div class="card"><div class="n">1</div><h3>Pick a shape</h3><p>16 shapes, from a single square to big L pieces. Harder shapes score more points.</p></div>
+      <div class="card"><div class="n">2</div><h3>Make the bits add up</h3><p>The columns are worth 128, 64, 32, 16, 8, 4, 2 and 1. Fill the right cells so the row's total equals its target.</p></div>
+      <div class="card"><div class="n">3</div><h3>Beat the clock</h3><p>Match exactly before the row's timer ends. Five exact rows take you to the next level, and the clock gets shorter.</p></div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="learn">
+    <h2 id="learn">What you pick up</h2>
+    <p class="muted">You practise place values and powers of two, converting between decimal and binary, and thinking in bytes, without being told to memorise anything. A wrong bit marks a row as impossible, so you learn why each bit matters.</p>
+  </section>
+
+  <section class="block" aria-labelledby="look">
+    <h2 id="look">A look</h2>
+    <div class="shots">
+      <figure><div class="phone"><img src="/assets/screenshot-play-dark.png" width="540" height="2258" alt="Dark theme, mid-game." loading="lazy"></div><figcaption>Dark</figcaption></figure>
+      <figure><div class="phone"><img src="/assets/screenshot-play-light.png" width="540" height="2258" alt="Light theme, mid-game." loading="lazy"></div><figcaption>Light</figcaption></figure>
+      <figure><div class="phone"><img src="/assets/screenshot-settings-dark.png" width="540" height="2258" alt="The settings screen with theme and sound options." loading="lazy"></div><figcaption>Settings</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="facts">
+    <h2 id="facts">Good to know</h2>
+    <ul class="plain">
+      <li>Works offline, with no account to create.</li>
+      <li>Light and dark themes, or follow your phone.</li>
+      <li>Collects no personal data. See the <a href="/privacy">privacy policy</a>.</li>
+      <li>The game is in testing. The App Store and Google Play versions are not released yet.</li>
+    </ul>
+  </section>
+</div>
