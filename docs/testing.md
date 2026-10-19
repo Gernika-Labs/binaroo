@@ -141,7 +141,7 @@ Use this on at least one iPhone and one Android phone, plus the extra sizes abov
 - [ ] Nothing is cut off by the notch, Dynamic Island, camera hole, rounded corners or the home bar/gesture bar.
 - [ ] Text is readable and numbers don't overlap on the **smallest** phone, including the right-hand `value/target` column (try `255/255`).
 - [ ] Every control is easy to hit with a thumb; the shape slots and the header buttons are not too small.
-- [ ] The page doesn't scroll, bounce, double-tap-zoom or select text while playing. Note whether pinch-zoom works (it is not blocked on purpose yet).
+- [ ] The page doesn't scroll, bounce, zoom or select text while playing: tap the shapes twice quickly, double-tap the board, and try to pinch. None of them should zoom the screen.
 - [ ] Portrait is locked on phones. Rotate the phone: the app stays portrait.
 - [ ] Animations are smooth: dragging, the clear flash, the celebration. Note any stutter and the device model.
 
