@@ -14,8 +14,8 @@ Decisions (2026-10-18):
 |---|---|---|
 | 1 | Scaffold the repo, move the prototype into `game/` unchanged | done |
 | 2 | Design doc updated so tested rules override the export | done |
-| 3 | Split the prototype into modules (`rules/`, `ui/`, `theme/`, `settings/`) and add rule tests | next |
-| 4 | Restyle to 1A dark, add light mode and the Settings screen | |
+| 3 | Split the prototype into modules (`rules/`, `ui/`, `theme/`, `settings/`) and add rule tests | done (PR) |
+| 4 | Restyle to 1A dark, add light mode and the Settings screen | next |
 | 5 | Add Capacitor, bundle ID, icons and splash, safe areas, haptics, offline; run on real phones | |
 | 6 | Marketing site and privacy policy | |
 | 7 | Store assets and listings | |
