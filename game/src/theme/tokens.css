@@ -1,10 +1,76 @@
-/* Design tokens. Dark is the default; the light set arrives with the Settings screen. */
-:root{
-  --bg:#07122b; --board:#0c1e44; --cell:#142d5c; --cell-edge:#1c3a73;
-  --fg:#e8f0ff; --dim:#8da2cf;
-  --bit:#4cc9f0; --bit-deep:#1b8fd1;
-  --exact:#4ade80; --over:#ffb703; --bad:#ff6b6b;
-  --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
-  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
-  color-scheme:dark;
+/*
+ * Design tokens for direction 1A "Terminal" (see docs/design-direction.md).
+ * Dark is the default. The theme is chosen in Settings (System / Dark / Light) and applied as
+ * data-theme on <html>. The *-rgb tokens hold bare channels so rgba(var(--x-rgb), a) works
+ * without color-mix(), which older webviews lack.
+ */
+:root,
+:root[data-theme="dark"] {
+  --bg: #070d1a;
+  --surf: #0d1628;
+  --surf2: #132038;
+  --line: #1f2e4c;
+  --ink: #d6e2ff;
+  --dim: #8493b6;
+
+  --board: #0a1222;
+  --cell: #121d33;
+  --cell-edge: #1a2640;
+  --off-ink: #2b3b5e; /* the 0 in an empty cell */
+  --on-ink: #0a1222; /* the 1 in a filled cell */
+
+  --fill: #7aa2ff;
+  --fill-rgb: 122, 162, 255;
+  --ok: #5cf2a6;
+  --ok-rgb: 92, 242, 166;
+  --warn: #ffb547;
+  --warn-rgb: 255, 181, 71;
+  --bad: #ff6b6b;
+  --bad-rgb: 255, 107, 107;
+  --acc: #5cf2a6;
+  --acc-ink: #03130b;
+
+  --scrim: rgba(3, 7, 15, 0.82);
+  --shadow: rgba(0, 0, 0, 0.55);
+  --theme-color: #070d1a;
+  color-scheme: dark;
+}
+
+/* Proposed light version of Terminal: same shapes and type, paper background, blue ink. */
+:root[data-theme="light"] {
+  --bg: #f4f6fb;
+  --surf: #ffffff;
+  --surf2: #e8edf7;
+  --line: #cfd8ea;
+  --ink: #0d1628;
+  --dim: #54648a;
+
+  --board: #e9eef9;
+  --cell: #dbe3f4;
+  --cell-edge: #c6d1e8;
+  --off-ink: #8fa1c6;
+  --on-ink: #ffffff;
+
+  --fill: #2f5fe0;
+  --fill-rgb: 47, 95, 224;
+  --ok: #08733f;
+  --ok-rgb: 8, 115, 63;
+  --warn: #9a5a00;
+  --warn-rgb: 154, 90, 0;
+  --bad: #c62f2f;
+  --bad-rgb: 198, 47, 47;
+  --acc: #08733f;
+  --acc-ink: #ffffff;
+
+  --scrim: rgba(13, 22, 40, 0.55);
+  --shadow: rgba(13, 22, 40, 0.25);
+  --theme-color: #f4f6fb;
+  color-scheme: light;
+}
+
+:root {
+  --font: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --r-cell: 3px;
+  --r-panel: 6px;
+  --r-btn: 4px;
 }

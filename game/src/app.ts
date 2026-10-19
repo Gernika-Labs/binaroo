@@ -15,11 +15,13 @@ import {
 import { levelName, rowSeconds } from "./rules/levels";
 import { pick } from "./rules/rng";
 import { SHAPES } from "./rules/shapes";
-import { loadBest, loadSound, saveBest, saveSound } from "./settings/storage";
+import { loadBest, loadSound, loadTheme, saveBest, saveSound, saveTheme } from "./settings/storage";
+import { type ThemeChoice, applyTheme, watchSystemTheme } from "./theme/theme";
 import { initAudio, isSoundEnabled, setSoundEnabled, tone } from "./ui/audio";
 import { buildCelebration, celebrate } from "./ui/celebration";
 import { byId } from "./ui/dom";
 import { bindInput } from "./ui/input";
+import { bindSettings } from "./ui/settings";
 import { toast } from "./ui/toast";
 import { type Preview, buildBoard, buildPicker, drawTimers, render as renderView } from "./ui/view";
 
@@ -218,18 +220,37 @@ export function startApp(): void {
     reject: () => toast("Doesn't fit there", true),
   });
 
+  /* settings */
+  let theme: ThemeChoice = loadTheme();
+  let pausedBeforeSettings = false;
+  bindSettings({
+    theme: () => theme,
+    setTheme(choice) {
+      theme = choice;
+      saveTheme(choice);
+      applyTheme(choice);
+    },
+    sound: isSoundEnabled,
+    setSound(on) {
+      initAudio();
+      setSoundEnabled(on);
+      saveSound(on);
+    },
+    opened() {
+      pausedBeforeSettings = paused;
+      paused = true;
+      clearTimeout(idleTimer);
+    },
+    closed() {
+      paused = pausedBeforeSettings;
+      if (!paused) armHint();
+    },
+  });
+  watchSystemTheme(() => {
+    if (theme === "system") applyTheme("system");
+  });
+
   /* header buttons and overlays */
-  const syncSoundButton = () => {
-    const btn = byId("snd");
-    btn.style.opacity = isSoundEnabled() ? "1" : "0.4";
-    btn.setAttribute("aria-pressed", String(isSoundEnabled()));
-  };
-  byId("snd").onclick = () => {
-    initAudio();
-    setSoundEnabled(!isSoundEnabled());
-    saveSound(isSoundEnabled());
-    syncSoundButton();
-  };
   byId("pause").onclick = () => {
     if (state.over || busy) return;
     paused = true;
@@ -246,10 +267,10 @@ export function startApp(): void {
   window.addEventListener("resize", render);
 
   setSoundEnabled(loadSound());
+  applyTheme(theme);
   buildBoard();
   buildPicker();
   buildCelebration();
-  syncSoundButton();
   render();
   armHint();
   setInterval(tick, TICK_MS);

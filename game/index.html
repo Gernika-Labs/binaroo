@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07122b">
 <title>Binaroo</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=JetBrains+Mono:wght@500;700&display=swap">
+<script>try{var t=localStorage.getItem("binaroo:theme"),d=t==="dark"||(t!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.dataset.theme=d?"dark":"light"}catch(e){}</script>
 </head>
 <body>
 <div id="app">
@@ -16,7 +15,7 @@
     <div class="stat lvl"><small id="lvlL">Level</small><b id="lvl">Easy</b></div>
     <div class="stat lvl"><small>Strikes</small><b id="strikes">○○○</b></div>
     <div class="sp"></div>
-    <button class="ib" id="snd" aria-label="Toggle sound">♪</button>
+    <button class="ib" id="settingsBtn" aria-label="Settings">⚙︎</button>
     <button class="ib" id="pause" aria-label="Pause">II</button>
   </header>
   <div>
@@ -28,6 +27,13 @@
 <div id="ghost"></div>
 <div id="toast"></div>
 <div class="lv" id="lvOv" hidden><div class="lvg" id="lvGrid"></div><div class="lvt"><div class="lvm" id="lvMsg"></div><div class="lvn" id="lvNum"></div><div class="lvs" id="lvName"></div></div></div>
+<div class="ov" id="setOv" hidden role="dialog" aria-modal="true" aria-labelledby="setTitle"><div class="card">
+  <h2 id="setTitle">Settings</h2>
+  <div class="row"><span class="label">Theme</span>
+    <div class="seg" id="themeSeg"><button data-choice="system">System</button><button data-choice="dark">Dark</button><button data-choice="light">Light</button></div></div>
+  <div class="row"><span class="label">Sound</span><button class="toggle" id="soundBtn" aria-pressed="true">On</button></div>
+  <button class="btn" id="setClose">Done</button>
+</div></div>
 <div class="ov" id="pauseOv" hidden><div class="card"><h2>Paused</h2><button class="btn" id="resume">Resume</button><button class="btn alt" id="restartP">Restart</button></div></div>
 <div class="ov" id="overOv" hidden><div class="card"><h2>Time's up</h2><div class="big" id="finalScore">0</div><p id="fact"></p><button class="btn" id="restart">Play again</button></div></div>
 <script type="module" src="/src/main.ts"></script>

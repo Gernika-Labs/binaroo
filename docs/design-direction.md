@@ -34,24 +34,28 @@ Source: the Claude Design export `Mobile app design form.zip` (`Byte Blast Mobil
 - **Stats / progress:** reached from the tab bar.
 - **Game:** 8×8 board with rows showing value, target and bit string, plus a piece tray.
 
-## Light mode (to build)
+## Light mode (built)
 
-The design file has no light version of Terminal. 1c "Bright" is a different look (round, sans-serif, orange). The palette below is a **proposal** that keeps the Terminal shapes and fonts. It needs a design check before we use it.
+The design export has no light version of Terminal (1c "Bright" is a different look), so the light palette is ours: same shapes and type as 1A, paper background, blue ink. It lives in `game/src/theme/tokens.css` next to the dark set.
 
-| Token | Proposed light value |
-|---|---|
-| `bg` | `#f4f6fb` |
-| `surf` / `surf2` | `#ffffff` / `#e8edf7` |
-| `line` | `#cfd8ea` |
-| `ink` / `dim` | `#0d1628` / `#5b6b8c` |
-| `board` | `#e9eef9` |
-| `cell` | `#dbe3f4` |
-| `offInk` / `onInk` | `#9fb0d0` / `#ffffff` |
-| `fill` / `piece` | `#2f5fe0` |
-| `ok` / `acc` | `#0f9d58` (button text `#ffffff`) |
-| `warn` | `#c77700` |
+| Token | Dark (from the export) | Light |
+|---|---|---|
+| `bg` | `#070d1a` | `#f4f6fb` |
+| `surf` / `surf2` | `#0d1628` / `#132038` | `#ffffff` / `#e8edf7` |
+| `line` | `#1f2e4c` | `#cfd8ea` |
+| `ink` / `dim` | `#d6e2ff` / `#8493b6` | `#0d1628` / `#54648a` |
+| `board` / `cell` | `#0a1222` / `#121d33` | `#e9eef9` / `#dbe3f4` |
+| `off-ink` / `on-ink` (the 0 / the 1) | `#2b3b5e` / `#0a1222` | `#8fa1c6` / `#ffffff` |
+| `fill` | `#7aa2ff` | `#2f5fe0` |
+| `ok` / `acc` | `#5cf2a6` | `#08733f` |
+| `warn` | `#ffb547` | `#9a5a00` |
+| `bad` | `#ff6b6b` | `#c62f2f` |
 
-Settings should offer **System / Dark / Light**, defaulting to System. Implement it with CSS variables on `:root` plus a `data-theme` attribute, so the choice is stored locally and applied before the first paint.
+The light values were tuned until every text pair passed WCAG AA (4.5:1) in `tests/theme.test.ts`, which reads the real `tokens.css`. Still open: a design review of the light look.
+
+**Settings** (gear button in the header): Theme **System / Dark / Light** (default System, follows the phone) and Sound. Opening Settings pauses the game; closing it resumes. The choice is saved on the device and applied before the first paint, so there is no flash. The level-up celebration is dark in both themes on purpose.
+
+**Fonts** are bundled (`@fontsource/jetbrains-mono`), so the app makes no network requests and works offline.
 
 ## Decided rules (tested in the prototype, these override the design export)
 
@@ -72,7 +76,7 @@ The export was drawn before the prototype was playtested. Where they disagree, *
 | Level-up | Not designed | **Celebration screen:** full-board colour wave, confetti, a big "Level N", the level name and time per row, a random cheer, and a rising jingle. Game and timers freeze for about 2.8 s. Tap to skip. |
 | Scoring | Handout table | Points per placed piece (above) + exact-row bonus 50 + target/5 + up to 30 for time left, multiplied by the streak (up to +50%). Streak = consecutive exact rows without a timeout. A timeout costs 25. |
 | Hints | Not designed | After 10 s idle, the closest reachable row glows; costs 15 points. |
-| Settings | None | Add a Settings screen: **Theme (System / Dark / Light)** and **Sound**. |
+| Settings | None | **Settings screen:** Theme (System / Dark / Light) and Sound. Built. |
 | Modes | Classic, Puzzle levels, Nibble tutorial; Daily Byte and Hex as "soon" | Build **Classic first**. The other modes follow later. |
 
 ### Design work still needed
@@ -81,8 +85,7 @@ The export doesn't show these, so they need designing in the 1A style:
 - Game screen with the picker, row timer bars, strikes and level progress in the header.
 - Level-up celebration screen.
 - Game-over screen ("Time's up").
-- Settings screen.
-- Light-mode versions of every screen.
+- Light-mode review of every screen.
 
 ## Next steps
 

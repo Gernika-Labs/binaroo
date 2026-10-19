@@ -17,9 +17,10 @@ game/src/
 │  ├─ view.ts        builds and renders the board, picker and header from a ViewModel
 │  ├─ input.ts       pointer handling: select, drag, tap to place
 │  ├─ celebration.ts level-up screen
+│  ├─ settings.ts    the Settings screen
 │  ├─ audio.ts, toast.ts, dom.ts, styles.css
-├─ theme/        design tokens (tokens.css: dark now, light with Settings)
-├─ settings/     saved best score and sound (guarded localStorage)
+├─ theme/        tokens.css (dark and light, switched by data-theme on <html>) and theme.ts (System / Dark / Light)
+├─ settings/     saved best score, sound and theme (guarded localStorage)
 ├─ content.ts    bit facts and cheers
 ├─ app.ts        controller: owns the state, animations, timer tick, overlays
 └─ main.ts       entry
@@ -39,4 +40,4 @@ game/tests/      vitest, one file per rules module
 
 ## Testing
 
-`npm test` runs the rules tests. The UI is checked by hand in a browser. Add UI tests when the 1A restyle lands.
+`npm test` runs the rules tests and the theme tests (including WCAG contrast of the real tokens). The UI is checked by hand in a browser; there are no automated UI tests yet.
