@@ -28,7 +28,7 @@ npm test
 npm run build      # outputs game/dist
 ```
 
-See `docs/architecture.md` for how `game/src` is organised.
+See `docs/architecture.md` for how `game/src` is organised, `docs/native.md` for building the iOS and Android apps (`npm run ios`, `npm run android`), and `docs/testing.md` for testing them on emulators and phones.
 
 ## Status
 

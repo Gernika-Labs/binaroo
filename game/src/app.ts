@@ -15,7 +15,28 @@ import {
 import { levelName, rowSeconds } from "./rules/levels";
 import { pick } from "./rules/rng";
 import { SHAPES } from "./rules/shapes";
-import { loadBest, loadSound, loadTheme, saveBest, saveSound, saveTheme } from "./settings/storage";
+import {
+  hapticError,
+  hapticSuccess,
+  hapticTap,
+  hapticWarning,
+  hideSplash,
+  isHapticsEnabled,
+  isNative,
+  onBackground,
+  setHapticsEnabled,
+  setStatusBarTheme,
+} from "./native";
+import {
+  loadBest,
+  loadHaptics,
+  loadSound,
+  loadTheme,
+  saveBest,
+  saveHaptics,
+  saveSound,
+  saveTheme,
+} from "./settings/storage";
 import { type ThemeChoice, applyTheme, watchSystemTheme } from "./theme/theme";
 import { initAudio, isSoundEnabled, setSoundEnabled, tone } from "./ui/audio";
 import { buildCelebration, celebrate } from "./ui/celebration";
@@ -93,6 +114,7 @@ export function startApp(): void {
     preview = null;
     hint = null;
     tone(330, 0.05, "triangle");
+    hapticTap();
     resolveClears();
   }
 
@@ -104,6 +126,7 @@ export function startApp(): void {
       return;
     }
     busy = true;
+    hapticSuccess();
     toast(`Exact! +${plan.gain}${plan.rows.length >= 2 ? `  ×${plan.rows.length} combo` : ""}`);
     clearing = new Map();
     for (const r of plan.rows) {
@@ -146,12 +169,14 @@ export function startApp(): void {
     }
     hint = null;
     tone(140, 0.25, "sawtooth", 0.1);
+    hapticWarning();
     toast(`Time's up  −${TIMEOUT_PENALTY} · row reset`, true);
     render();
     if (state.over) endGame();
   }
 
   function endGame(): void {
+    hapticError();
     syncBest();
     render();
     byId("finalScore").textContent = String(state.score);
@@ -228,13 +253,19 @@ export function startApp(): void {
     setTheme(choice) {
       theme = choice;
       saveTheme(choice);
-      applyTheme(choice);
+      setStatusBarTheme(applyTheme(choice));
     },
     sound: isSoundEnabled,
     setSound(on) {
       initAudio();
       setSoundEnabled(on);
       saveSound(on);
+    },
+    haptics: () => (isNative ? isHapticsEnabled() : null),
+    setHaptics(on) {
+      setHapticsEnabled(on);
+      saveHaptics(on);
+      if (on) hapticTap();
     },
     opened() {
       pausedBeforeSettings = paused;
@@ -247,7 +278,7 @@ export function startApp(): void {
     },
   });
   watchSystemTheme(() => {
-    if (theme === "system") applyTheme("system");
+    if (theme === "system") setStatusBarTheme(applyTheme("system"));
   });
 
   /* header buttons and overlays */
@@ -265,13 +296,22 @@ export function startApp(): void {
   byId("restartP").onclick = restart;
   byId("restart").onclick = restart;
   window.addEventListener("resize", render);
+  onBackground(() => {
+    // leaving the app mid-game pauses it, like the pause button
+    if (state.over || busy || paused) return;
+    paused = true;
+    clearTimeout(idleTimer);
+    byId("pauseOv").hidden = false;
+  });
 
   setSoundEnabled(loadSound());
-  applyTheme(theme);
+  setHapticsEnabled(loadHaptics());
+  setStatusBarTheme(applyTheme(theme));
   buildBoard();
   buildPicker();
   buildCelebration();
   render();
   armHint();
   setInterval(tick, TICK_MS);
+  requestAnimationFrame(() => hideSplash());
 }

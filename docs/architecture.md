@@ -21,6 +21,7 @@ game/src/
 │  ├─ audio.ts, toast.ts, dom.ts, styles.css
 ├─ theme/        tokens.css (dark and light, switched by data-theme on <html>) and theme.ts (System / Dark / Light)
 ├─ settings/     saved best score, sound and theme (guarded localStorage)
+├─ native.ts     iOS/Android only: haptics, status bar, splash, auto-pause (no-ops on the web)
 ├─ content.ts    bit facts and cheers
 ├─ app.ts        controller: owns the state, animations, timer tick, overlays
 └─ main.ts       entry
