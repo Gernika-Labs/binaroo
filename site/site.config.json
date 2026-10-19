@@ -1,11 +1,11 @@
 {
   "name": "Binaroo",
   "tagline": "Learn binary by playing.",
-  "email": "TODO",
-  "legalName": "TODO",
-  "country": "TODO",
-  "domain": "TODO",
+  "email": "musabi.apps@proton.me",
+  "legalName": "Gernika Labs",
+  "country": "Puerto Rico",
+  "domain": "gernika-labs.github.io",
   "hosting": "GitHub Pages",
-  "updated": "TODO",
-  "basePath": ""
+  "updated": "19 October 2026",
+  "basePath": "/binaroo"
 }
