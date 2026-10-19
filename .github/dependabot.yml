@@ -23,6 +23,13 @@ updates:
     schedule:
       interval: monthly
     open-pull-requests-limit: 3
+    ignore:
+      # Capacitor's Android template decides these versions. Gradle 9.6+ cannot run Android Gradle
+      # Plugin 8 (the build fails), so skip major updates of both until Capacitor moves.
+      - dependency-name: "gradle-wrapper"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "com.android.tools.build:gradle"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
     directory: /
