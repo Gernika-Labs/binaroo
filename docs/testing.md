@@ -39,7 +39,7 @@ xcrun simctl launch "iPhone 17" com.gernikalabs.binaroo
 xcrun simctl io "iPhone 17" screenshot ~/Desktop/binaroo-ios.png
 ```
 
-**Seeing the screen:** on this Mac there is no separate `Simulator.app` (the script says so), so the simulator runs in the background. Run it from Xcode's **Run** button to watch it, or use the screenshot the script saves.
+**Seeing the screen:** Xcode 27 replaced the old `Simulator.app` with **Device Hub** (already installed with Xcode, nothing to download). The script opens it for you. To open it yourself: `open -a DeviceHub`, or Xcode's menu **Xcode > Open Developer Tool > Device Hub**. It shows every simulator and connected phone in one window: pick *iPhone 17* in the list on the left to see and tap the screen. Its settings, menus and window layout differ from the old Simulator, so the old Simulator keyboard shortcuts may not all apply. You can also always use the screenshot the script saves.
 
 **Useful switches** (replace the name if you use another device)
 - Dark or light: `xcrun simctl ui "iPhone 17" appearance dark` (or `light`), then relaunch. With Settings on *System* the app follows it.
@@ -194,7 +194,7 @@ Aim for: at least 2 real phones (one per platform), the smallest and largest sim
 | `No devices are booted` | The boot step failed or was skipped, so there is nothing to install on. | Check with `xcrun simctl list devices booted`. Boot it with `xcrun simctl boot "iPhone 17"`. |
 | `Unable to boot device in current state: Booted` | It is already running. | Ignore it and continue. |
 | The screenshot shows only the splash (four squares) or a blurred home screen with the icon zooming | The app was still launching. The first launch on a freshly booted simulator can take 10 to 20 seconds. | Wait a few seconds, then run `npm run ios:shot` (from `game/`) and open `~/Desktop/binaroo-ios.png`. If the screenshot is still the home screen after a minute, the app crashed: send me the output of `xcrun simctl spawn "iPhone 17" log show --last 2m --predicate 'process == "App"' --style compact`. |
-| `Unable to find application named 'Simulator'` | This Xcode install has no `Simulator.app`. | Run from Xcode's Run button, or use the screenshot. |
+| `Unable to find application named 'Simulator'` | Xcode 27 no longer has `Simulator.app`; it was replaced by Device Hub. | Open it with `open -a DeviceHub` (the script now does this for you). |
 | `adb: command not found` | The Android tools are not on this terminal's PATH. | Run the two `export` lines in section 2, or use `npm run android:emu`. |
 | `no devices/emulators found` | No emulator is running yet. | Start one (`emulator -avd Pixel_9`) and wait for it to boot, or use `npm run android:emu`. |
 | `device unauthorized` (real phone) | USB debugging was not accepted. | Unlock the phone and tap **Allow** on the prompt, then `adb devices` again. |
