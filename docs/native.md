@@ -12,18 +12,11 @@ How to test on emulators and real phones: see `testing.md`.
 | `npm run sync` | Builds the web app and copies it into `ios/` and `android/`. Run after changing web code. |
 | `npm run ios` | Sync, then open Xcode. Press Run to start the simulator or a device. |
 | `npm run android` | Sync, then open Android Studio. |
+| `npm run ios:sim` | Builds, installs and launches on an iOS simulator (`-- "iPhone 17e"` to pick another). |
+| `npm run android:emu` | Builds the APK, starts an emulator if needed, installs and launches. |
 | `npm run assets` | Redraws the icon and splash (`scripts/make-resources.mjs`) and regenerates every size for both platforms. |
 
-Command-line builds, no IDE needed:
-
-```sh
-# iOS simulator
-cd game/ios/App
-xcodebuild -project App.xcodeproj -scheme App -destination 'platform=iOS Simulator,name=iPhone 17' CODE_SIGNING_ALLOWED=NO build
-
-# Android debug APK (needs ANDROID_HOME, e.g. ~/Library/Android/sdk)
-cd game/android && ./gradlew assembleDebug    # -> app/build/outputs/apk/debug/app-debug.apk
-```
+Step-by-step manual commands, with a troubleshooting table, are in `testing.md`.
 
 ## What the native layer does (`game/src/native.ts`)
 

@@ -1,6 +1,6 @@
 # Testing Binaroo on emulators and real phones
 
-How to run the app on simulators/emulators and physical devices, and what to check. Build details are in `native.md`. All commands run from `game/` unless stated.
+How to run the app on simulators/emulators and physical devices, and what to check. Build details are in `native.md`. Commands run from `game/` unless a block says "from the repo root". The `npm run ios:sim` and `npm run android:emu` scripts do the whole build, install and launch for you.
 
 **Why both:** emulators are fast and good for layout, themes and logic. Real phones are the only way to judge touch, dragging, haptics, sound and performance, so a release needs both.
 
@@ -8,9 +8,11 @@ How to run the app on simulators/emulators and physical devices, and what to che
 
 ```sh
 cd game
-npm install        # first time only
-npm run sync       # builds the web app and copies it into ios/ and android/
+npm install
+npm run sync
 ```
+
+`npm install` is only needed the first time. `npm run sync` builds the web app and copies it into the `ios/` and `android/` projects.
 
 Run `npm run sync` again whenever the web code changes. The native apps carry their own copy of the game, so they do not update by themselves.
 
@@ -20,28 +22,31 @@ Fast check first (no native tools needed): `npm run dev`, then open the printed 
 
 Needs Xcode (this Mac has it).
 
-**In Xcode (easiest):**
-1. `npm run ios` (syncs and opens Xcode).
-2. Pick a simulator at the top (for example *iPhone 17*) and press **Run**.
-
-**From the terminal:**
+**One command** (from `game/`; it syncs, builds, boots the simulator, installs, launches and saves a screenshot):
 ```sh
-xcrun simctl list devices available            # see names and IDs
-cd ios/App
-xcodebuild -project App.xcodeproj -scheme App \
-  -destination 'platform=iOS Simulator,name=iPhone 17' \
-  -derivedDataPath /tmp/binaroo-ios CODE_SIGNING_ALLOWED=NO build
-xcrun simctl boot "iPhone 17"                   # skip if already booted
-xcrun simctl install booted /tmp/binaroo-ios/Build/Products/Debug-iphonesimulator/App.app
-xcrun simctl launch booted com.gernikalabs.binaroo
-xcrun simctl io booted screenshot ~/Desktop/binaroo.png
+npm run ios:sim
+```
+Another device: `npm run ios:sim -- "iPhone 17e"`. List the names with `xcrun simctl list devices available`.
+
+**In Xcode:** `npm run ios` (syncs and opens Xcode), pick a simulator at the top (for example *iPhone 17*) and press **Run**.
+
+**By hand**, from the repo root (copy one line at a time; `boot` prints an error if the simulator is already running, which is fine):
+```sh
+xcodebuild -project game/ios/App/App.xcodeproj -scheme App -destination 'platform=iOS Simulator,name=iPhone 17' -derivedDataPath /tmp/binaroo-ios CODE_SIGNING_ALLOWED=NO build
+xcrun simctl boot "iPhone 17"
+xcrun simctl install "iPhone 17" /tmp/binaroo-ios/Build/Products/Debug-iphonesimulator/App.app
+xcrun simctl launch "iPhone 17" com.gernikalabs.binaroo
+xcrun simctl io "iPhone 17" screenshot ~/Desktop/binaroo-ios.png
 ```
 
-**Useful switches**
-- Dark / light: `xcrun simctl ui booted appearance dark` (or `light`), then relaunch. With Settings on *System* the app follows it.
-- Relaunch: `xcrun simctl terminate booted com.gernikalabs.binaroo && xcrun simctl launch booted com.gernikalabs.binaroo`
-- Reset the app's saved data (best score, settings): `xcrun simctl uninstall booted com.gernikalabs.binaroo`, then install again.
-- Devices worth covering on this Mac: *iPhone 17e* (smaller screen), *iPhone 17*, *iPhone 18 Pro Max* (largest), *iPad* (to see the layout on a big screen).
+**Seeing the screen:** on this Mac there is no separate `Simulator.app` (the script says so), so the simulator runs in the background. Run it from Xcode's **Run** button to watch it, or use the screenshot the script saves.
+
+**Useful switches** (replace the name if you use another device)
+- Dark or light: `xcrun simctl ui "iPhone 17" appearance dark` (or `light`), then relaunch. With Settings on *System* the app follows it.
+- Relaunch: `xcrun simctl terminate "iPhone 17" com.gernikalabs.binaroo`, then `xcrun simctl launch "iPhone 17" com.gernikalabs.binaroo`.
+- Reset the app's saved data (best score, settings): `xcrun simctl uninstall "iPhone 17" com.gernikalabs.binaroo`, then run the script again.
+- Stop all simulators: `xcrun simctl shutdown all`.
+- Devices worth covering: *iPhone 17e* (smaller screen), *iPhone 17*, *iPhone 18 Pro Max* (largest), *iPad* (to see the layout on a big screen).
 
 **Limits:** the simulator uses the mouse as a finger, plays no haptics, and its sound can differ from a phone. Do not sign off on those here.
 
@@ -49,26 +54,38 @@ xcrun simctl io booted screenshot ~/Desktop/binaroo.png
 
 Needs Android Studio's SDK (this Mac has it, with the AVDs `Pixel_9` and `Medium_Phone_API_36.0`).
 
+**One command** (from `game/`; it syncs, builds the APK, starts the emulator if none is running, installs and launches):
+```sh
+npm run android:emu
+```
+Another emulator: `npm run android:emu -- Medium_Phone_API_36.0`. No window: `HEADLESS=1 npm run android:emu`. The first start takes a minute or two.
+
 **In Android Studio:** `npm run android`, pick a device in Device Manager, press **Run**.
 
-**From the terminal:**
+**By hand**, from `game/`. First set up the tools for this terminal:
 ```sh
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator
+```
+Then, one line at a time (start the emulator in its own terminal tab, because it keeps running):
+```sh
 emulator -list-avds
-emulator -avd Pixel_9 &                         # add -no-window for headless
-adb wait-for-device
-cd android && ./gradlew assembleDebug && cd ..
+emulator -avd Pixel_9
+```
+```sh
+npm run sync
+(cd android && ./gradlew assembleDebug)
 adb install -r android/app/build/outputs/apk/debug/app-debug.apk
 adb shell am start -n com.gernikalabs.binaroo/.MainActivity
-adb exec-out screencap -p > binaroo.png
+adb exec-out screencap -p > ~/Desktop/binaroo-android.png
 ```
 
 **Useful switches**
-- Dark / light: `adb shell cmd uimode night yes` (or `no`), then relaunch.
+- Dark or light: `adb shell cmd uimode night yes` (or `no`), then relaunch.
 - Taps: `adb shell input tap X Y`. Drag: `adb shell input swipe X1 Y1 X2 Y2 600`.
 - Reset saved data: `adb shell pm clear com.gernikalabs.binaroo`
 - Errors: `adb logcat -s chromium:E Capacitor:E AndroidRuntime:E`
+- Stop the emulator: `adb emu kill`
 - Cover a small phone and a tablet too: create AVDs in Android Studio's Device Manager (for example a small-screen phone and a 10" tablet).
 
 **Limits:** no real haptics, and touch is emulated.
@@ -168,7 +185,21 @@ Record what you actually covered, so gaps are visible.
 
 Aim for: at least 2 real phones (one per platform), the smallest and largest simulator phones, and light and dark on each platform.
 
-## 7. Reporting a bug
+## 7. If a command fails
+
+| What you see | Why | Fix |
+|---|---|---|
+| `'App.xcodeproj' does not exist` | You ran the command from the wrong folder. | Use `npm run ios:sim` from `game/`, or the by-hand commands from the **repo root**. |
+| `Unknown argument: #` | Interactive zsh does not accept `# comments` on a command line. | Copy only the command, without the `#` part. The commands in this guide have no trailing comments. |
+| `No devices are booted` | The boot step failed or was skipped, so there is nothing to install on. | Check with `xcrun simctl list devices booted`. Boot it with `xcrun simctl boot "iPhone 17"`. |
+| `Unable to boot device in current state: Booted` | It is already running. | Ignore it and continue. |
+| `Unable to find application named 'Simulator'` | This Xcode install has no `Simulator.app`. | Run from Xcode's Run button, or use the screenshot. |
+| `adb: command not found` | The Android tools are not on this terminal's PATH. | Run the two `export` lines in section 2, or use `npm run android:emu`. |
+| `no devices/emulators found` | No emulator is running yet. | Start one (`emulator -avd Pixel_9`) and wait for it to boot, or use `npm run android:emu`. |
+| `device unauthorized` (real phone) | USB debugging was not accepted. | Unlock the phone and tap **Allow** on the prompt, then `adb devices` again. |
+| The app shows an old version | The native app keeps its own copy of the game. | Run `npm run sync` (the scripts do it for you) and install again. |
+
+## 8. Reporting a bug
 
 Put this in a GitHub issue:
 - **Device and OS** (for example *iPhone 15, iOS 18.2* or *Pixel 8, Android 15*), and real or emulator.
@@ -179,7 +210,7 @@ Put this in a GitHub issue:
 - **Logs** if it crashed or froze: Xcode's console, `adb logcat`, or the Web Inspector / chrome://inspect console.
 - **Settings:** theme, sound, haptics.
 
-## 8. Known gaps (so you don't report them)
+## 9. Known gaps (so you don't report them)
 
 - The icon and splash are placeholders.
 - There are no automated UI tests; this guide is the UI test.

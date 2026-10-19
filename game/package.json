@@ -12,7 +12,9 @@
     "assets": "node scripts/make-resources.mjs && capacitor-assets generate --ios --android --iconBackgroundColor '#070d1a' --iconBackgroundColorDark '#070d1a' --splashBackgroundColor '#070d1a' --splashBackgroundColorDark '#070d1a'",
     "sync": "npm run build && cap sync",
     "ios": "npm run sync && cap open ios",
-    "android": "npm run sync && cap open android"
+    "android": "npm run sync && cap open android",
+    "ios:sim": "bash scripts/ios-sim.sh",
+    "android:emu": "bash scripts/android-emu.sh"
   },
   "devDependencies": {
     "@capacitor/android": "^8.5.3",
