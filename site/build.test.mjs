@@ -86,3 +86,31 @@ test("an unknown placeholder fails the build", async () => {
   mkdirSync(join(src, "assets"));
   assert.throws(() => build({ config: full, srcDir: src, outDir: out(), gameDir: game() }), /unknown placeholder \{\{nope\}\}/);
 });
+
+test("a basePath prefixes every internal link and asset (GitHub Pages project site)", () => {
+  const outDir = out();
+  build({ config: { ...full, domain: "gernika-labs.github.io", basePath: "binaroo/" }, outDir, gameDir: game() });
+  for (const page of ["index.html", "privacy.html", "support.html", "press.html", "404.html"]) {
+    const html = readFileSync(join(outDir, page), "utf8");
+    const links = [...html.matchAll(/(?:href|src)="(\/[^"]*)"/g)].map((m) => m[1]);
+    assert.ok(links.length > 0, `${page} has internal links`);
+    for (const link of links) assert.ok(link === "/binaroo" || link.startsWith("/binaroo/"), `${page}: ${link} is not under /binaroo`);
+  }
+  const index = readFileSync(join(outDir, "index.html"), "utf8");
+  assert.match(index, /href="\/binaroo\/play\/"/);
+  assert.match(index, /content="https:\/\/gernika-labs\.github\.io\/binaroo\/assets\/og-image\.png"/);
+  assert.match(readFileSync(join(outDir, "sitemap.xml"), "utf8"), /https:\/\/gernika-labs\.github\.io\/binaroo\/privacy/);
+  // fonts are relative to the stylesheet, so they follow it under any base
+  assert.doesNotMatch(readFileSync(join(outDir, "styles.css"), "utf8"), /url\("\/assets/);
+});
+
+test("without a basePath links stay at the domain root", () => {
+  const outDir = out();
+  build({ config: full, outDir, gameDir: game() });
+  const links = [...readFileSync(join(outDir, "index.html"), "utf8").matchAll(/(?:href|src)="(\/[^"]*)"/g)].map((m) => m[1]);
+  assert.ok(links.includes("/play/") && links.includes("/privacy") && links.includes("/"));
+});
+
+test("basePath is optional: an empty one does not block a release build", () => {
+  build({ config: { ...full, basePath: "" }, release: true, outDir: out(), gameDir: game() });
+});

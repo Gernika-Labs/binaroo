@@ -6,5 +6,6 @@
   "country": "TODO",
   "domain": "TODO",
   "hosting": "GitHub Pages",
-  "updated": "TODO"
+  "updated": "TODO",
+  "basePath": ""
 }

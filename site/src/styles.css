@@ -1,7 +1,7 @@
 /* Binaroo site: the game's 1A Terminal look. Dark by default, light when the visitor's system is light. */
-@font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:swap;src:url("/assets/fonts/jetbrains-mono-latin-400-normal.woff2") format("woff2")}
-@font-face{font-family:"JetBrains Mono";font-weight:700;font-style:normal;font-display:swap;src:url("/assets/fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2")}
-@font-face{font-family:"JetBrains Mono";font-weight:800;font-style:normal;font-display:swap;src:url("/assets/fonts/jetbrains-mono-latin-800-normal.woff2") format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:swap;src:url("assets/fonts/jetbrains-mono-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-weight:700;font-style:normal;font-display:swap;src:url("assets/fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-weight:800;font-style:normal;font-display:swap;src:url("assets/fonts/jetbrains-mono-latin-800-normal.woff2") format("woff2")}
 
 :root{
   --bg:#070d1a;--surf:#0d1628;--surf2:#132038;--line:#1f2e4c;--ink:#d6e2ff;--dim:#8493b6;

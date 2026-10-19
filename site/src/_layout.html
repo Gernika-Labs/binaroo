@@ -7,10 +7,10 @@
 <meta name="description" content="{{description}}">
 <meta name="theme-color" content="#070d1a" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f4f6fb" media="(prefers-color-scheme: light)">
-<link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
-<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-<link rel="stylesheet" href="/styles.css">
-<link rel="preload" href="/assets/fonts/jetbrains-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="{{base}}/assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="{{base}}/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="{{base}}/styles.css">
+<link rel="preload" href="{{base}}/assets/fonts/jetbrains-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <meta property="og:site_name" content="{{name}}">
 <meta property="og:title" content="{{pageTitle}}">
 <meta property="og:description" content="{{description}}">
@@ -21,12 +21,12 @@
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site"><div class="wrap">
-  <a class="brand" href="/"><img src="/assets/icon-512.png" width="32" height="32" alt="">{{name}}</a>
+  <a class="brand" href="{{base}}/"><img src="{{base}}/assets/icon-512.png" width="32" height="32" alt="">{{name}}</a>
   <nav class="site" aria-label="Main">
-    <a href="/play/">Play</a>
-    <a href="/support"{{cur:support}}>Support</a>
-    <a href="/press"{{cur:press}}>Press</a>
-    <a href="/privacy"{{cur:privacy}}>Privacy</a>
+    <a href="{{base}}/play/">Play</a>
+    <a href="{{base}}/support"{{cur:support}}>Support</a>
+    <a href="{{base}}/press"{{cur:press}}>Press</a>
+    <a href="{{base}}/privacy"{{cur:privacy}}>Privacy</a>
   </nav>
 </div></header>
 <main id="main">
@@ -35,9 +35,9 @@
 <footer class="site"><div class="wrap">
   <span>&copy; {{year}} {{legalName}}</span>
   <span class="sp"></span>
-  <a href="/privacy">Privacy</a>
-  <a href="/support">Support</a>
-  <a href="/press">Press kit</a>
+  <a href="{{base}}/privacy">Privacy</a>
+  <a href="{{base}}/support">Support</a>
+  <a href="{{base}}/press">Press kit</a>
 </div></footer>
 </body>
 </html>

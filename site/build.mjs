@@ -12,6 +12,15 @@ const here = dirname(fileURLToPath(import.meta.url));
 
 const isTodo = (v) => typeof v !== "string" || v.trim() === "" || /TODO/i.test(v);
 
+/** Details that must be real before a release build. (basePath is optional and may be empty.) */
+const REQUIRED = ["email", "legalName", "country", "domain", "updated"];
+
+/** "" for a site at the domain root; "/binaroo" for a GitHub Pages project site. No trailing slash. */
+function normalizeBase(value) {
+  const trimmed = String(value ?? "").trim().replace(/^\/+|\/+$/g, "");
+  return trimmed ? `/${trimmed}` : "";
+}
+
 /** Pulls the `key: value` lines out of a page's leading HTML comment. */
 function parsePage(source) {
   const m = source.match(/^\s*<!--([\s\S]*?)-->\s*/);
@@ -33,7 +42,7 @@ export function build({
   gameDir = join(here, "..", "game", "dist"),
   year = new Date().getFullYear(),
 } = {}) {
-  const todo = Object.entries(config).filter(([, v]) => isTodo(v)).map(([k]) => k);
+  const todo = REQUIRED.filter((key) => isTodo(config[key]));
   if (release && todo.length) {
     throw new Error(`Release build blocked: fill in ${todo.join(", ")} in site/site.config.json`);
   }
@@ -42,8 +51,10 @@ export function build({
   mkdirSync(outDir, { recursive: true });
 
   const layout = readFileSync(join(srcDir, "_layout.html"), "utf8");
-  const origin = isTodo(config.domain) ? "" : `https://${config.domain}`;
-  const vars = { ...config, year: String(year), origin };
+  const base = normalizeBase(config.basePath);
+  const host = isTodo(config.domain) ? "" : `https://${config.domain}`;
+  const origin = host ? `${host}${base}` : base; // absolute when the domain is known
+  const vars = { ...config, year: String(year), base, origin };
 
   const pages = [];
   for (const file of readdirSync(srcDir)) {
@@ -78,12 +89,13 @@ export function build({
     console.warn(`warning: ${gameDir} not found, /play will be missing`);
   }
 
-  if (origin) {
+  if (host) {
     const urls = ["/", "/play/", ...pages.filter((p) => !["index.html", "404.html"].includes(p)).map((p) => `/${p.replace(/\.html$/, "")}`)];
     writeFileSync(
       join(outDir, "sitemap.xml"),
       `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `  <url><loc>${origin}${u}</loc></url>`).join("\n")}\n</urlset>\n`,
     );
+    // crawlers only read robots.txt at the domain root, so it is only effective without a basePath
     writeFileSync(join(outDir, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${origin}/sitemap.xml\n`);
   } else {
     writeFileSync(join(outDir, "robots.txt"), "User-agent: *\nDisallow: /\n"); // no domain yet: keep it out of search
