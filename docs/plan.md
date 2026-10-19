@@ -17,14 +17,17 @@ Decisions (2026-10-18):
 | 3 | Split the prototype into modules (`rules/`, `ui/`, `theme/`, `settings/`) and add rule tests | done (PR) |
 | 4 | Restyle to 1A dark, add light mode and the Settings screen | done (PR) |
 | 4b | Home screen, Nibble tutorial, Puzzle levels, Stats (from the export) | not started, after playtesting |
-| 5 | Add Capacitor, bundle ID, icons and splash, safe areas, haptics, offline; run on real phones | next |
+| 5 | Add Capacitor, bundle ID, icons and splash, safe areas, haptics, offline | done (PR); real-phone testing still to do, see `native.md` |
 | 6 | Marketing site and privacy policy | |
 | 7 | Store assets and listings | |
 | 8 | Beta (TestFlight, Play closed testing), then CI release jobs, then launch | |
 
+## Decided since
+
+- Bundle ID / application ID: **`com.gernikalabs.binaroo`** (cannot change after the first store release).
+
 ## Still needed
 
-- **Bundle ID / application ID** (for example `com.gernikalabs.binaroo`). It cannot change after the first store release, so decide it before phase 5.
 - **Domain** for the site and privacy policy.
 - **License.**
 

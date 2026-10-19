@@ -6,6 +6,9 @@ export interface SettingsHost {
   setTheme(choice: ThemeChoice): void;
   sound(): boolean;
   setSound(on: boolean): void;
+  /** Null when the device can't vibrate (the web build), which hides the row. */
+  haptics(): boolean | null;
+  setHaptics(on: boolean): void;
   /** The screen opened: pause the game. */
   opened(): void;
   /** The screen closed: resume. */
@@ -17,6 +20,7 @@ export function bindSettings(host: SettingsHost): void {
   const overlay = byId("setOv");
   const seg = byId("themeSeg");
   const sound = byId("soundBtn");
+  const haptic = byId("hapticBtn");
 
   const sync = () => {
     const current = host.theme();
@@ -25,6 +29,10 @@ export function bindSettings(host: SettingsHost): void {
     });
     sound.setAttribute("aria-pressed", String(host.sound()));
     sound.textContent = host.sound() ? "On" : "Off";
+    const haptics = host.haptics();
+    byId("hapticRow").hidden = haptics === null;
+    haptic.setAttribute("aria-pressed", String(haptics === true));
+    haptic.textContent = haptics ? "On" : "Off";
   };
 
   const open = () => {
@@ -53,6 +61,10 @@ export function bindSettings(host: SettingsHost): void {
   });
   sound.onclick = () => {
     host.setSound(!host.sound());
+    sync();
+  };
+  haptic.onclick = () => {
+    host.setHaptics(!host.haptics());
     sync();
   };
 }

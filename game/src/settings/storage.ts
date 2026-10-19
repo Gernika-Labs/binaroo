@@ -1,7 +1,7 @@
 import { THEME_CHOICES, type ThemeChoice } from "../theme/theme";
 
 /** Saved on the device. Every access is guarded: storage can be blocked or full. */
-const KEYS = { best: "binaroo:best", sound: "binaroo:sound", theme: "binaroo:theme" } as const;
+const KEYS = { best: "binaroo:best", sound: "binaroo:sound", theme: "binaroo:theme", haptics: "binaroo:haptics" } as const;
 
 function read(key: string): string | null {
   try {
@@ -30,3 +30,6 @@ export function loadTheme(): ThemeChoice {
   return THEME_CHOICES.find((c) => c === saved) ?? "system";
 }
 export const saveTheme = (choice: ThemeChoice): void => write(KEYS.theme, choice);
+
+export const loadHaptics = (): boolean => read(KEYS.haptics) !== "0";
+export const saveHaptics = (on: boolean): void => write(KEYS.haptics, on ? "1" : "0");
