@@ -1,0 +1,31 @@
+# Dependabot opens pull requests for outdated dependencies. Security updates are separate (Settings > Advanced Security).
+# Capacitor updates must also be synced into the native projects: after merging one, run `npm run sync` in game/
+# and test the apps (see docs/testing.md).
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /game
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    groups:
+      capacitor:
+        patterns: ["@capacitor/*"]
+      dev-tools:
+        patterns: ["vite", "vitest", "typescript", "@types/*"]
+      other:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+
+  - package-ecosystem: gradle
+    directory: /game/android
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 3
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 3
