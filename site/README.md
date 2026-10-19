@@ -11,4 +11,4 @@ node --test site              # tests
 
 Fill in `site.config.json` (email, legal name, country, domain, date) before going live. `node site/build.mjs --release` refuses to build while any value is still `TODO`.
 
-Everything else (hosting on Cloudflare Pages, the privacy policy, what is not done) is in [`docs/site.md`](../docs/site.md).
+Everything else (hosting on GitHub Pages, the privacy policy, what is not done) is in [`docs/site.md`](../docs/site.md).

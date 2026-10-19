@@ -18,7 +18,7 @@ Decisions (2026-10-18):
 | 4 | Restyle to 1A dark, add light mode and the Settings screen | done (PR) |
 | 4b | Home screen, Nibble tutorial, Puzzle levels, Stats (from the export) | not started, after playtesting |
 | 5 | Add Capacitor, bundle ID, icons and splash, safe areas, haptics, offline | done (PR); real-phone testing still to do, see `native.md` |
-| 6 | Marketing site and privacy policy | built (PR); needs email, legal name, country, domain and a Cloudflare Pages project before it can go live, see `site.md` |
+| 6 | Marketing site and privacy policy | built (PR); needs email, legal name, country, domain and Pages enabled on the repo before it can go live, see `site.md` |
 | 7 | Store assets and listings | |
 | 8 | Beta (TestFlight, Play closed testing), then CI release jobs, then launch | |
 
