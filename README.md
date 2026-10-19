@@ -9,7 +9,7 @@ A mobile puzzle game that teaches binary. Fill an 8-wide board so each row's bit
 | Folder | What it is |
 |---|---|
 | `game/` | The app: TypeScript + Vite, wrapped for Android and iOS with Capacitor. One codebase builds the web demo and both apps. |
-| `site/` | Marketing website (static), including a playable web build, privacy policy and support pages. |
+| `site/` | Marketing website (static): home, privacy policy, support, press kit, and the playable web game at `/play`. See `docs/site.md`. |
 | `store/` | App Store and Google Play listing text, screenshots, graphics and the privacy policy source. |
 | `design/` | The design export (direction 1A, Terminal) and tokens. |
 | `docs/` | Plan, design decisions, engine comparison, game ideas, game design handout. |

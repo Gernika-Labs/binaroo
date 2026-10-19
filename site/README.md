@@ -1,5 +1,14 @@
 # site/
 
-Marketing website for Binaroo. Not started.
+The Binaroo website: home, privacy policy, support, press kit, and the web game at `/play`. Static, no dependencies.
 
-Planned: landing page, a playable web build at `/play` (the same build as the app), privacy policy, support page, press kit. Static hosting (Cloudflare Pages or GitHub Pages). Both app stores require a privacy policy URL, so this must be live before the first store submission.
+```sh
+npm --prefix game run build   # the web game, embedded at /play
+node site/build.mjs           # build to site/dist
+node site/serve.mjs           # preview at http://localhost:4173
+node --test site              # tests
+```
+
+Fill in `site.config.json` (email, legal name, country, domain, date) before going live. `node site/build.mjs --release` refuses to build while any value is still `TODO`.
+
+Everything else (hosting on Cloudflare Pages, the privacy policy, what is not done) is in [`docs/site.md`](../docs/site.md).
